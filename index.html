@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Favour | March 1st</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+height:100vh;
+background:radial-gradient(circle at top,#1a1a1a,#000);
+overflow:hidden;
+font-family:'Poppins',sans-serif;
+display:flex;
+justify-content:center;
+align-items:center;
+color:white;
+perspective:1200px;
+transition:0.6s; /* smooth fade */
+}
+
+/* GOLD PARTICLES */
+canvas{
+position:absolute;
+top:0;
+left:0;
+z-index:0;
+}
+
+/* MAIN CONTAINER */
+.container{
+position:relative;
+z-index:2;
+width:95%;
+max-width:400px;
+height:600px;
+transform-style:preserve-3d;
+animation:floatCard 6s ease-in-out infinite alternate;
+}
+
+@keyframes floatCard{
+from{transform:rotateY(-8deg) rotateX(6deg);}
+to{transform:rotateY(8deg) rotateX(-6deg);}
+}
+
+/* GLASS CARD */
+.card{
+position:absolute;
+width:100%;
+height:100%;
+border-radius:25px;
+background:linear-gradient(145deg,rgba(255,215,0,0.08),rgba(255,255,255,0.05));
+backdrop-filter:blur(20px);
+box-shadow:
+0 0 40px rgba(255,215,0,0.3),
+0 20px 60px rgba(0,0,0,0.6);
+padding:30px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+}
+
+/* GOLD TEXT */
+.title{
+font-family:'Playfair Display',serif;
+font-size:32px;
+font-weight:800;
+background:linear-gradient(to right,#FFD700,#fff,#FFD700);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+animation:shine 4s linear infinite;
+}
+
+@keyframes shine{
+0%{background-position:-200px;}
+100%{background-position:200px;}
+}
+
+.name{
+font-size:40px;
+margin-top:15px;
+font-weight:700;
+color:#FFD700;
+text-shadow:0 0 20px rgba(255,215,0,0.8);
+}
+
+.date{
+margin-top:10px;
+font-size:16px;
+letter-spacing:3px;
+color:#ccc;
+}
+
+.message{
+margin-top:20px;
+font-size:14px;
+line-height:1.7;
+color:#eee;
+}
+
+/* LUXURY BUTTON */
+.btn{
+margin-top:30px;
+padding:15px 30px;
+border-radius:50px;
+border:2px solid gold;
+background:transparent;
+color:gold;
+font-weight:600;
+cursor:pointer;
+transition:0.4s;
+position:relative;
+overflow:hidden;
+}
+
+.btn:hover{
+background:gold;
+color:black;
+box-shadow:0 0 25px gold;
+}
+
+/* FIREWORK EFFECT */
+.firework{
+position:absolute;
+width:5px;
+height:5px;
+background:gold;
+border-radius:50%;
+animation:explode 1s ease-out forwards;
+}
+
+@keyframes explode{
+to{
+transform:translate(var(--x),var(--y));
+opacity:0;
+}
+}
+
+/* MOBILE OPTIMIZATION */
+@media(max-width:450px){
+.container{
+height:550px;
+}
+.title{font-size:26px;}
+.name{font-size:32px;}
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+
+<div class="container">
+<div class="card">
+
+<div class="title">Happy Birthday</div>
+<div class="name">Favour</div>
+<div class="date">MARCH 1ST</div>
+
+<div class="message">
+On this luxurious day, the world celebrates a rare gem.  
+Your elegance, strength, and beauty shine brighter than gold.  
+May your life be filled with royalty, success, and endless joy.
+</div>
+
+<button class="btn" onclick="celebrate()">Celebrate 🎆</button>
+
+</div>
+</div>
+
+<script>
+// GOLD PARTICLES BACKGROUND
+const canvas=document.getElementById("particles");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let particles=[];
+for(let i=0;i<100;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+size:Math.random()*2,
+speed:Math.random()*0.5+0.2
+});
+}
+
+function animate(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle="gold";
+particles.forEach(p=>{
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+ctx.fill();
+p.y+=p.speed;
+if(p.y>canvas.height)p.y=0;
+});
+requestAnimationFrame(animate);
+}
+animate();
+
+// FIREWORKS
+function fireworks(){
+for(let i=0;i<50;i++){
+let fw=document.createElement("div");
+fw.className="firework";
+fw.style.left="50%";
+fw.style.top="50%";
+fw.style.setProperty('--x',(Math.random()-0.5)*300+'px');
+fw.style.setProperty('--y',(Math.random()-0.5)*300+'px');
+document.body.appendChild(fw);
+setTimeout(()=>fw.remove(),1000);
+}
+}
+
+// CELEBRATE FUNCTION (UPDATED)
+function celebrate(){
+fireworks();
+
+// fade out effect
+document.body.style.opacity = "0";
+
+// redirect after animation
+setTimeout(()=>{
+window.location.href = "celebrate.html";
+},600);
+}
+
+// INTERACTIVE 3D TILT
+document.querySelector(".container").addEventListener("mousemove",e=>{
+let x=(window.innerWidth/2 - e.clientX)/30;
+let y=(window.innerHeight/2 - e.clientY)/30;
+document.querySelector(".container").style.transform=
+`rotateY(${x}deg) rotateX(${y}deg)`;
+});
+</script>
+
+</body>
+</html>
