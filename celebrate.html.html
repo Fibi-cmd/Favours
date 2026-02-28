@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Celebrate Favour</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+height:100vh;
+background:radial-gradient(circle at top,#1a1a1a,#000);
+font-family:'Poppins',sans-serif;
+overflow:hidden;
+color:white;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+}
+
+/* NAVBAR */
+.nav{
+position:fixed;
+bottom:15px;
+width:95%;
+display:flex;
+justify-content:space-around;
+padding:10px;
+border-radius:50px;
+background:rgba(255,215,0,0.1);
+backdrop-filter:blur(10px);
+box-shadow:0 0 20px rgba(255,215,0,0.3);
+z-index:10;
+}
+
+.nav a{
+text-decoration:none;
+color:gold;
+font-size:12px;
+padding:10px 15px;
+border-radius:30px;
+transition:0.3s;
+}
+
+.nav a:hover{
+background:gold;
+color:black;
+box-shadow:0 0 10px gold;
+}
+
+/* POPUP */
+.popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.9);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:20;
+}
+
+.popup-box{
+background:linear-gradient(145deg,#111,#000);
+padding:25px;
+border-radius:20px;
+text-align:center;
+box-shadow:0 0 30px gold;
+}
+
+.popup button{
+margin-top:15px;
+padding:10px 20px;
+border:none;
+background:gold;
+color:black;
+border-radius:20px;
+cursor:pointer;
+}
+
+/* 3D IMAGE RING */
+.scene{
+width:200px;
+height:200px;
+perspective:1000px;
+margin-top:40px;
+}
+
+.ring{
+width:100%;
+height:100%;
+position:relative;
+transform-style:preserve-3d;
+transition:transform 0.2s;
+}
+
+.ring img{
+position:absolute;
+width:120px;
+height:120px;
+border-radius:50%;
+object-fit:cover;
+left:40px;
+top:40px;
+box-shadow:0 0 20px gold;
+}
+
+/* POSITION MULTIPLE IMAGES IN CIRCLE */
+.ring img:nth-child(1){transform:rotateY(0deg) translateZ(150px);}
+.ring img:nth-child(2){transform:rotateY(90deg) translateZ(150px);}
+.ring img:nth-child(3){transform:rotateY(180deg) translateZ(150px);}
+.ring img:nth-child(4){transform:rotateY(270deg) translateZ(150px);}
+
+/* TITLE */
+.title{
+margin-top:20px;
+font-size:20px;
+color:gold;
+text-align:center;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+<div class="popup-box">
+<p>Hi Dr. Favour 💛<br>Do you want to keep reading?</p>
+<button onclick="startExperience()">OK</button>
+</div>
+</div>
+
+<!-- AUDIO -->
+<audio id="music" loop>
+<source src="birthday.mp3" type="audio/mpeg">
+</audio>
+
+<!-- 3D IMAGE -->
+<div class="scene">
+<div class="ring" id="ring">
+<img src="favour.jpg">
+<img src="favour.jpg">
+<img src="favour.jpg">
+<img src="favour.jpg">
+</div>
+</div>
+
+<div class="title">Happy Birthday Queen ✨</div>
+
+<!-- NAVIGATION -->
+<div class="nav">
+<a href="home.html">Home</a>
+<a href="birthdaygirl.html">Birthday Girl</a>
+<a href="games.html">Games</a>
+<a href="story.html">Story</a>
+</div>
+
+<script>
+// START EXPERIENCE
+function startExperience(){
+document.getElementById("popup").style.display="none";
+document.getElementById("music").play();
+}
+
+// 3D ROTATION (TOUCH + MOUSE)
+let ring=document.getElementById("ring");
+let isDragging=false;
+let startX, currentRotate=0;
+
+ring.addEventListener("mousedown",e=>{
+isDragging=true;
+startX=e.clientX;
+});
+
+window.addEventListener("mouseup",()=>isDragging=false);
+
+window.addEventListener("mousemove",e=>{
+if(!isDragging)return;
+let move=e.clientX-startX;
+currentRotate+=move*0.5;
+ring.style.transform=`rotateY(${currentRotate}deg)`;
+startX=e.clientX;
+});
+
+// MOBILE TOUCH
+ring.addEventListener("touchstart",e=>{
+startX=e.touches[0].clientX;
+});
+
+ring.addEventListener("touchmove",e=>{
+let move=e.touches[0].clientX-startX;
+currentRotate+=move*0.5;
+ring.style.transform=`rotateY(${currentRotate}deg)`;
+startX=e.touches[0].clientX;
+});
+</script>
+
+</body>
+</html>
